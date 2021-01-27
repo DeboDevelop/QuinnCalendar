@@ -1,5 +1,22 @@
 import React, { Component } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import GestureRecognizer from "react-native-swipe-gestures";
+import Box from "../common/Box";
+
+const months = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+];
 
 export class Calendar extends Component {
     constructor(props) {
@@ -11,26 +28,69 @@ export class Calendar extends Component {
             year: new Date().getFullYear(),
         };
     }
+    onSwipeUp(gestureState) {
+        if (this.state.month === 0) {
+            this.setState({ ...this.state, month: 11, year: this.state.year - 1 });
+        } else {
+            this.setState({ ...this.state, month: this.state.month - 1 });
+        }
+    }
+
+    onSwipeDown(gestureState) {
+        if (this.state.month === 11) {
+            this.setState({ ...this.state, month: 0, year: this.state.year + 1 });
+        } else {
+            this.setState({ ...this.state, month: this.state.month + 1 });
+        }
+    }
+    onSwipeLeft(gestureState) {
+        if (this.state.month === 0) {
+            this.setState({ ...this.state, month: 11, year: this.state.year - 1 });
+        } else {
+            this.setState({ ...this.state, month: this.state.month - 1 });
+        }
+    }
+
+    onSwipeRight(gestureState) {
+        if (this.state.month === 11) {
+            this.setState({ ...this.state, month: 0, year: this.state.year + 1 });
+        } else {
+            this.setState({ ...this.state, month: this.state.month + 1 });
+        }
+    }
     render() {
+        const config = {
+            velocityThreshold: 0.3,
+            directionalOffsetThreshold: 80,
+        };
         return (
-            <View>
-                <View style={styles.header}>
-                    <TouchableOpacity>
-                        <Text style={styles.txt}>December</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.btn}>
-                        <Text style={styles.txt}>Today</Text>
-                    </TouchableOpacity>
+            <GestureRecognizer
+                onSwipeUp={state => this.onSwipeUp(state)}
+                onSwipeDown={state => this.onSwipeDown(state)}
+                onSwipeLeft={state => this.onSwipeLeft(state)}
+                onSwipeRight={state => this.onSwipeRight(state)}
+                config={config}
+                style={{
+                    flex: 1,
+                }}>
+                <View>
+                    <View style={styles.header}>
+                        <TouchableOpacity>
+                            <Text style={styles.txt}>
+                                {months[this.state.month] + " "},{" " + this.state.year}
+                            </Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.btn}>
+                            <Text style={styles.txt}>Today</Text>
+                        </TouchableOpacity>
+                    </View>
+                    <View style={styles.main}>
+                        {this.state.calender.map((item, index) => {
+                            return <Box key={index} text={item} />;
+                        })}
+                    </View>
                 </View>
-                <View style={styles.main}>
-                    {/* {this.state.calender.map((item, index) => {
-                        return <Box key={index} />;
-                    })} */}
-                    <Text>{this.state.day}</Text>
-                    <Text>{this.state.month}</Text>
-                    <Text>{this.state.year}</Text>
-                </View>
-            </View>
+            </GestureRecognizer>
         );
     }
 }

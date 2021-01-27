@@ -3,10 +3,10 @@ import { Dimensions, StyleSheet, Text, TouchableOpacity } from "react-native";
 
 const { width: MAX_WIDTH, height: MAX_HEIGHT } = Dimensions.get("window");
 
-const Box = () => {
+const Box = ({ text }) => {
     return (
         <TouchableOpacity style={styles.box}>
-            <Text>0</Text>
+            <Text>{text}</Text>
         </TouchableOpacity>
     );
 };
