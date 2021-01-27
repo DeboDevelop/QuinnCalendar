@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Dimensions, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import GestureRecognizer from "react-native-swipe-gestures";
 import Box from "../common/Box";
 
@@ -27,6 +27,16 @@ export class Calendar extends Component {
             month: new Date().getMonth(),
             year: new Date().getFullYear(),
         };
+        this.forceUpdateHandler = this.forceUpdateHandler.bind(this);
+        Dimensions.addEventListener("change", () => {
+            console.log("CHange");
+            this.forceUpdateHandler();
+        });
+    }
+    forceUpdateHandler() {
+        setTimeout(() => {
+            this.forceUpdate();
+        }, 500);
     }
     onSwipeUp(gestureState) {
         if (this.state.month === 0) {
