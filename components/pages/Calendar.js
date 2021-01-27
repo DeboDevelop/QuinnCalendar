@@ -22,6 +22,7 @@ export class Calendar extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            mounted: false,
             calender: Array(49).fill(0),
             day: new Date().getDate(),
             month: new Date().getMonth(),
@@ -29,14 +30,21 @@ export class Calendar extends Component {
         };
         this.forceUpdateHandler = this.forceUpdateHandler.bind(this);
         Dimensions.addEventListener("change", () => {
-            console.log("CHange");
             this.forceUpdateHandler();
         });
     }
+    componentDidMount() {
+        this.setState({ ...this.state, mounted: true });
+    }
+    componentWillUnmount() {
+        this.setState({ ...this.state, mounted: false });
+    }
     forceUpdateHandler() {
-        setTimeout(() => {
-            this.forceUpdate();
-        }, 500);
+        if (this.state.mounted) {
+            setTimeout(() => {
+                this.forceUpdate();
+            }, 500);
+        }
     }
     onSwipeUp(gestureState) {
         if (this.state.month === 0) {

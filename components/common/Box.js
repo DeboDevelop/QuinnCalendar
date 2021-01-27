@@ -21,7 +21,6 @@ const Box = ({ text }) => {
         };
     };
     const onChange = ({ window }) => {
-        console.log("Box Change");
         setDimensions(window);
     };
     return (
