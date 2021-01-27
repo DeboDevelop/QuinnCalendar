@@ -159,7 +159,7 @@ export class Calendar extends Component {
                     </View>
                     <View style={styles.main}>
                         {this.state.calender.map((item, index) => {
-                            return <Box key={index} text={item} />;
+                            return <Box key={index} text={item} month={this.state.month} year={this.state.year} />;
                         })}
                     </View>
                 </View>
